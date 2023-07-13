@@ -1,0 +1,15 @@
+@import '../../components/GlobalStyles/GlobalStyles.scss';
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 24%);
+    justify-content: space-between;
+}
+
+@include respond(phone) {
+    .products-grid {
+        grid-template-columns: repeat(2, 49%);
+        margin-top: unset;
+        padding-top: unset;
+    }
+}

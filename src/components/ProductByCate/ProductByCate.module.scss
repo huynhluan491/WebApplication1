@@ -1,0 +1,17 @@
+@import '../../components/GlobalStyles/GlobalStyles.scss';
+
+.products-mid-layout {
+    padding-top: 15rem;
+}
+
+.seemore-btn {
+    display: flex;
+    justify-content: center;
+}
+
+@include respond(phone) {
+    .products-mid-layout {
+        width: var(--default-width-phone-content);
+        padding-top: 10rem;
+    }
+}

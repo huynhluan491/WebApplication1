@@ -1,0 +1,12 @@
+@import '../../components/GlobalStyles/GlobalStyles.scss';
+
+.container {
+    width: var(--default-width-content);
+    margin: auto;
+}
+
+@include respond(phone) {
+    .container {
+        width: var(--default-width-phone-content);
+    }
+}

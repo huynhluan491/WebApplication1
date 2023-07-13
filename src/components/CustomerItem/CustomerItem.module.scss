@@ -1,0 +1,10 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-item {
+    display: flex;
+    overflow-y: hidden;
+    gap: 1rem;
+}

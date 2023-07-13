@@ -1,0 +1,12 @@
+@import '../../../components/GlobalStyles/GlobalStyles.scss';
+
+.wrapper {
+    width: 100%;
+    padding-top: 20rem;
+}
+
+@include respond(phone) {
+    .wrapper {
+        padding-top: 12rem;
+    }
+}

@@ -1,0 +1,155 @@
+@import 'normalize.css';
+
+:root {
+    --primary: #fe2c55;
+    --black: #000;
+    --text-color: #131823;
+    --white: #fff;
+
+    --font-family: 'ProximaNova', sans-serif;
+
+    --default-layout-header-height: 60px;
+    --default-layout-width: 1150px;
+    --default-layout-horizontal-spacer: 24px;
+    --default-width-content: 80%;
+    --default-width-phone-content: 90%;
+    --default-space-top-div: 6rem;
+    --default-space-bottom-div: 6rem;
+
+    --toastify-color-success: #fff; // mau bg icon toast
+    --toastify-text-color-light: #fff; // text color
+    --toastify-color-light: #4caf50; // bg color of toast container
+    --toastify-toast-width: 28rem; //container width
+
+    --default-space-to-header: 6rem;
+}
+
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media (max-width: 600px) {
+            @content;
+        } //600px
+    }
+    @if $breakpoint == tab-port {
+        @media (max-width: 900px) {
+            @content;
+        } //900px
+    }
+    @if $breakpoint == tab-land {
+        @media (max-width: 1200px) {
+            @content;
+        } //1200px
+    }
+    @if $breakpoint == big-desktop {
+        @media (min-width: 1800px) {
+            @content;
+        } //1800px
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-y: overlay;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    color: var(--text-color);
+}
+
+ul {
+    padding-left: 0 !important;
+    margin: 0 !important;
+}
+
+li {
+    list-style-type: none;
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 0 !important;
+    line-height: unset !important;
+}
+
+button {
+    background-color: transparent;
+}
+
+a[href] {
+    color: var(--text-color);
+    text-decoration: none;
+
+    &:hover {
+        color: black;
+    }
+}
+
+// center layout products page
+.products-mid-layout {
+    width: var(--default-width-content);
+    margin: auto;
+}
+
+//TOASTIFY REACTJS LIB CUSTOMIZE
+//https://fkhadra.github.io/react-toastify/how-to-style/
+.Toastify__toast {
+    box-shadow: none;
+    border-radius: 999999px;
+}
+.Toastify__toast-body {
+    padding: 1rem 1rem 1rem 1rem;
+}
+.Toastify__close-button {
+    display: none;
+}
+.Toastify__toast-icon {
+    width: 3rem;
+}
+.Toastify__toast-body > div:last-child {
+    font-size: 1.2rem;
+}
+
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media (max-width: 600px) {
+            @content;
+        } //600px
+    }
+    @if $breakpoint == tab-port {
+        @media (max-width: 900px) {
+            @content;
+        } //900px
+    }
+    @if $breakpoint == tab-land {
+        @media (max-width: 1200px) {
+            @content;
+        } //1200px
+    }
+    @if $breakpoint == big-desktop {
+        @media (min-width: 1800px) {
+            @content;
+        } //1800px
+    }
+}

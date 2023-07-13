@@ -1,0 +1,19 @@
+.wrapper {
+    background-color: #115e5c;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    padding: 1rem 0;
+    font-size: 1.4rem;
+}
+
+.close-btn {
+    position: absolute;
+    right: 2rem;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}

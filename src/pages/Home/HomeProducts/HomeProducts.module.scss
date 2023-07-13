@@ -1,0 +1,23 @@
+@import '../../../components/GlobalStyles/GlobalStyles.scss';
+
+.products-container {
+    width: var(--default-layout-content);
+    display: grid;
+    grid-template-columns: repeat(4, 24%);
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.seeAll-btn {
+    display: flex;
+    justify-content: center;
+    padding-top: 2.5rem;
+}
+
+//////////////////////////
+/// RESPONSIVE
+@include respond(phone) {
+    .products-container {
+        grid-template-columns: repeat(2, 49%);
+    }
+}

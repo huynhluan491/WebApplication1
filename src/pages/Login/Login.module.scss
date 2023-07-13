@@ -1,0 +1,85 @@
+.container {
+    height: 100vh;
+    width: 40%;
+    margin: auto;
+    text-align: center;
+    padding-top: 5rem;
+}
+
+.container .login-content {
+    .close-btn {
+        text-align: end;
+    }
+
+    .page-header {
+        padding: 2rem 0;
+
+        .title {
+            font-size: 2.4rem;
+            font-weight: 700;
+        }
+
+        .option-text {
+            font-size: 1.4rem;
+
+            .text-right {
+                margin-left: 0.5rem;
+                color: rgb(37 99 235/1);
+            }
+        }
+    }
+
+    .google-login {
+        display: flex;
+        justify-content: center;
+
+        .login-btn {
+            display: flex;
+            width: 80%;
+            align-items: center;
+            padding: 1.4rem;
+            border-radius: 2rem;
+            border: 1px solid rgb(237 237 237/1);
+            background-color: white;
+
+            img {
+                width: 6%;
+                border-radius: 1rem;
+                object-fit: contain;
+            }
+
+            .btn-text {
+                flex: 1;
+                font-size: 1.6rem;
+                color: rgb(156 163 175/1);
+            }
+        }
+        .login-btn:hover {
+            background-color: red;
+            // background-color: rgb(241 245 249/1);
+        }
+    }
+
+    .separation {
+        margin: 2rem 0;
+        position: relative;
+
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            background: #e7eaf3;
+            width: 100%;
+            height: 1px;
+        }
+
+        // &::after {
+        //     content: '';
+        //     display: block;
+        //     position: absolute;
+        //     background: #e7eaf3;
+        //     width: 100%;
+        //     height: 1px;
+        // }
+    }
+}

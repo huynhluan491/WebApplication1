@@ -1,0 +1,150 @@
+@import '../../../components/GlobalStyles/GlobalStyles.scss';
+.footer-container {
+    background-color: rgb(16 91 89/1);
+    margin-top: var(--default-space-top-div);
+}
+
+.content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: var(--default-width-content);
+    margin: auto;
+}
+
+.content-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    color: #ffffff;
+    width: 100%;
+}
+
+.company-info {
+    flex: 1.5;
+}
+
+.resource-info {
+    flex: 1;
+
+    .policy-list {
+        font-size: 1.6rem;
+        padding-top: 2rem;
+    }
+}
+
+.news-content {
+    flex: 1.5;
+}
+
+.title {
+    font-size: 2.8rem;
+    padding: 2rem 0;
+    position: relative;
+    display: inline-block;
+    .line-space {
+        position: absolute;
+        width: 50%;
+        height: 1px;
+        bottom: 2px;
+        background-color: rgb(55 178 174/1);
+    }
+}
+.description {
+    font-size: 1.6rem;
+    display: block;
+    padding-top: 2rem;
+}
+
+.form-container {
+    display: flex;
+    background-color: rgb(255 255 255/1);
+    width: 83%;
+    border-radius: 999999px;
+    gap: 1rem;
+    margin-top: 0.5rem;
+
+    .form-input {
+        width: 100%;
+        .email-input {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            padding: 2rem;
+            border-top-left-radius: 999999px;
+            border-bottom-left-radius: 999999px;
+            font-size: 1.4rem;
+        }
+    }
+    .send-btn {
+        padding: 2rem 5rem;
+        background-color: rgb(254 124 34/1);
+        border-radius: 99999px;
+        color: white;
+        font-size: 1.4rem;
+    }
+}
+
+.social-logo {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+
+    .icon {
+        padding: 8px;
+        border-radius: 99999px;
+        margin-right: 1rem;
+    }
+}
+
+.payment-available {
+    display: flex;
+    flex-wrap: wrap;
+    color: #ffffff;
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+
+    .payment-title {
+        font-size: 2.8rem;
+    }
+
+    .payment-unit {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+
+        .payment-logo {
+            padding: 0.2rem 1rem;
+            background-color: rgb(255 255 255/1);
+            border-radius: 1rem;
+        }
+
+        img {
+            height: 2rem;
+            width: 5rem;
+            object-fit: contain;
+        }
+    }
+}
+
+@include respond(phone) {
+    .content-wrapper {
+        width: var(--default-width-phone-content);
+    }
+    .content-layout {
+        flex-direction: column-reverse;
+        gap: unset;
+    }
+    .payment-available {
+        justify-content: center;
+
+        .payment-unit {
+            justify-content: center;
+        }
+    }
+
+    .form-container {
+        margin-top: 2rem;
+    }
+}

@@ -1,0 +1,104 @@
+@import '../../../components/GlobalStyles/GlobalStyles.scss';
+.wrapper {
+    width: 100%;
+    background-color: #94c4c8bd;
+    margin-top: var(--default-space-top-div);
+}
+
+.content-container {
+    width: var(--default-width-content);
+    margin: auto;
+    position: relative;
+}
+
+.banner-title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 80px;
+
+    .title-text {
+        font-size: 4.8rem;
+        width: 100%;
+        // -webkit-text-fill-color: #acd0d3;
+        // -webkit-text-stroke-color: #fff;
+        color: white;
+        font-weight: 900;
+        letter-spacing: 8px;
+        margin: 0;
+        text-transform: uppercase;
+    }
+}
+
+.banner-img {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding-top: 4.8rem;
+}
+
+.gamingPhone-list {
+    background-color: rgb(246 246 246/1);
+    border-radius: 1rem;
+}
+
+.gamingPhone-list .list-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+
+    .item-wrapper {
+        width: calc(90% / 4);
+    }
+}
+
+.gamingPhone-list .introduction {
+    width: 100%;
+    text-align: center;
+    margin: 3rem 0;
+    font-size: 1.6rem;
+    .brand-name {
+        font-size: 1.8rem;
+        color: rgb(16 91 89/1);
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+}
+
+.gamingPhone-list .seemore-btn {
+    width: 100%;
+    text-align: center;
+    margin: 1.5rem 0;
+
+    button {
+        padding: 0.5rem 1.5rem;
+        border-radius: 999999px;
+        font-size: 1.2rem;
+        border: 1px solid #115e5c;
+        color: rgb(17 94 92/1);
+    }
+}
+
+@include respond(phone) {
+    .content-container {
+        width: var(--default-width-phone-content);
+    }
+
+    .gamingPhone-list {
+        padding-bottom: 2rem;
+    }
+
+    .gamingPhone-list .list-layout {
+        display: grid;
+        grid-template-columns: repeat(2, 45%);
+        .item-wrapper {
+            width: unset;
+        }
+    }
+
+    .gamingPhone-list .introduction {
+        font-size: 1.2rem;
+        padding: 0 2rem;
+    }
+}

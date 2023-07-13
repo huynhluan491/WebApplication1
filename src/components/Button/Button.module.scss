@@ -1,0 +1,64 @@
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+
+.title {
+    display: flex;
+    text-align: center;
+}
+
+//Button types
+.whiteNoborder {
+    background-color: #ffffff;
+    align-items: center;
+}
+
+.whiteBorder {
+    background-color: #ffffff;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.addToCart {
+    background-color: transparent;
+    border: 1px solid #000;
+    border-radius: 40%;
+}
+
+.smallTango {
+    height: 30px;
+    width: 30px;
+}
+
+.mediumTango {
+    height: 40px;
+    width: 40px;
+}
+
+.seeAll {
+    color: rgb(255 255 255/1);
+    background-color: rgb(253 127 40/1);
+    padding: 0.5rem 1.5rem;
+
+    .title-btn {
+        padding: 0.75rem;
+    }
+
+    &:hover {
+        background-color: #115e5c;
+        transition: all 0.4s ease-in-out;
+    }
+}

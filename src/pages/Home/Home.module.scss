@@ -1,0 +1,17 @@
+@import '../../components/GlobalStyles/GlobalStyles.scss';
+
+.content-layout {
+    width: var(--default-width-content);
+    margin: auto;
+}
+
+.special-product {
+    width: var(--default-width-content);
+    margin: auto;
+}
+
+@include respond(phone) {
+    .content-layout {
+        width: var(--default-width-phone-content);
+    }
+}
