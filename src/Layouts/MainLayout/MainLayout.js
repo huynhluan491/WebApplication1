@@ -4,7 +4,7 @@ import styles from './MainLayout.module.scss';
 import { FreeShipNotification } from '~/components/Freeship';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+//test
 const cx = classNames.bind(styles);
 
 function MainLayout({ children }) {
