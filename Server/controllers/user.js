@@ -11,7 +11,7 @@ exports.addUser = async (req, res) => {
             });
         }
 
-        user = await UserDao.getUserByUserName(req.body.user);
+        user = await UserDao.getUserByUserName(req.body.userName);
         if (user) {
             return res.status(403).json({
                 code: 403,

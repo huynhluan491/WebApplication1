@@ -3,7 +3,6 @@ const dbConfig = require("../database/dbconfig");
 const dbUntils = require("../utils/dbUtils");
 const bcrypt = require("bcryptjs");
 const StaticData = require("../utils/StaticData");
-const { request } = require("express");
 
 exports.addUserIfNotExisted = async (user) => {
     if (!dbConfig.db.pool) {
@@ -45,8 +44,8 @@ exports.insertUser = async (user) => {
     }
 
     user.createdAt = new Date().toISOString();
-    let insertDate = UserSchema.validateData(user);
-    insertData.password = await bcrypt.hash(insertDate.password, 10);
+    let insertData = UserSchema.validateData(user);
+    insertData.password = await bcrypt.hash(insertData.password, 10);
 
     let query = `insert into ${UserSchema.schemaName}`;
     const { request, insertFieldNamesStr, insertValuesStr } =
@@ -58,7 +57,7 @@ exports.insertUser = async (user) => {
     if (!insertFieldNamesStr || !insertValuesStr) {
         throw new Error("Invalid insert param");
     }
-    query += "(" + insertFieldNamesStr + ") select" + insertValuesStr;
+    query += "(" + insertFieldNamesStr + ") select  " + insertValuesStr;
     let result = await request.query(query);
     return result.recordsets;
 }
@@ -119,7 +118,7 @@ exports.getAllUser = async (filter) => {
     let selectQuery = `SELECT * FROM ${UserSchema.schemaName}`;
     let countQuery = `SELECT COUNT(DISTINCT ${UserSchema.schema.userID.name}) AS TOTALITEM FROM ${UserSchema.schemaName}`;
 
-    const { filterStr, paginationStr } = dbUntils.getFilterProductQuery(
+    const { filterStr, paginationStr } = dbUntils.getFilterProductsQuery(
         UserSchema.schema,
         filter,
         page,

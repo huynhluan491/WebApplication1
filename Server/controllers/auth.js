@@ -72,7 +72,7 @@ exports.signup = async (req, res) => {
         if (!form.password || !form.userName || !form.email) {
             return res.status(403).json({
                 code: 403,
-                msg: "Invalid form "
+                msg: "Invalid password "
             })
         }
         await UserDAO.insertUser({
@@ -81,7 +81,9 @@ exports.signup = async (req, res) => {
             email: form.email,
         });
         const user = await UserDAO.getUserByUserName(form.userName);
+        await CartDAO.createNewCart(user.userID);
         delete user.password;
+        // console.log("usertest", user);
 
         return res.status(200).json({
             code: 200,
@@ -92,7 +94,7 @@ exports.signup = async (req, res) => {
         console.log(err)
         res.status(500).json({
             code: 500,
-            msg: err,
+            msg: err.toString(),
         })
     }
 }

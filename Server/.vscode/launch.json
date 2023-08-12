@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\model\\ModelSchemaValidator.js"
+            "program": "${workspaceFolder}\\DAO\\ProductDAO.js"
         }
     ]
 }
