@@ -377,7 +377,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/product/5",
+							"raw": "http://localhost:3000/api/v1/product/81",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -387,7 +387,232 @@
 								"api",
 								"v1",
 								"product",
-								"5"
+								"81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPagination",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/product/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJhdXRoIjoxLCJjYXJ0SUQiOi0xLCJpYXQiOjE2OTE3ODQ4ODAsImV4cCI6MTY5MTgwNjQ4MH0.UpflyBbAr2d37Tu4_Nsse2AVIb46vNuZr9INAEZ0DOU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n                // \"productID\": 21,\r\n                // \"stock\": 3,\r\n                // \"name\": \"Product test\",\r\n                // \"favorite\": 1,\r\n                // \"categoryID\": 4,\r\n                \"price\": 6000000\r\n                // \"brandID\": 10,\r\n                // \"image\": \"image4\",\r\n                // \"sale\": 0.23,\r\n                // \"description\": \"Với đường nét khá là tinh tế, độ dày nhỏ dần từ cạnh trên xuống dưới, trông thiết bị mạng Router Wifi Xiaomi này có vẻ ngoài mảnh mai, thon gọn và phù hợp với mọi không gian. Router Wifi chuẩn AC1200 4A có băng tần kép bao gồm tốc độ tối đa đến 867 Mbps ở băng tần 5 GHz và 300 Mbps ở băng tần 2.4 GHz. Như vậy sẽ hạn chế nhiễu sóng và phù hợp với nhu cầu sử dụng đường truyền nhanh và ổn định. Router Xiaomi luôn được đảm bảo kết nối của các thiết bị trong gia đình một cách tốt nhất và ổn định nhất nhờ bộ nhớ 64 MB. Có thể kết nối cùng lúc từ 30 - 40 thiết bị, khả năng xử lý nhiều tác vụ nhanh và ổn định hơn. <br /> Router còn được trang bị 2 cổng LAN, 1 cổng WAN tiện lợi cho người dùng sử dụng máy tính bàn kết nối trực tiếp, đường truyền tốc độ cao hơn.\",\r\n                // \"brandName\": \"xiaomi\"\r\n            }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/product/74",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"74"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createNewProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJhdXRoIjoxLCJjYXJ0SUQiOi0xLCJpYXQiOjE2OTE3NDYwNTgsImV4cCI6MTY5MTc2NzY1OH0.nehJz-QXL5lhIWflhrcYF02Q0j5n5x_juNrocJZ5fqs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjU0LCJ1c2VybmFtZSI6ImFkbWluMiIsImF1dGgiOjAsImNhcnRJRCI6LTEsImlhdCI6MTY5MTc0NTcyNywiZXhwIjoxNjkxNzY3MzI3fQ.4EVc4xElduuvyb3DybVoUBTvMaQtFmJX2YeG1fVvWRo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"stock\": 3,\r\n        \"name\": \"Product test 2\",\r\n        \"favorite\": 1,\r\n        \"categoryID\": 4,\r\n        \"price\": 1000000000,\r\n        \"brandID\": 10,\r\n        \"image\": \"image4\",\r\n        \"sale\": 0.23,\r\n        \"description\": \"Với đường nét khá là tinh tế, độ dày nhỏ dần từ cạnh trên xuống dưới, trông thiết bị mạng Router Wifi Xiaomi này có vẻ ngoài mảnh mai, thon gọn và phù hợp với mọi không gian. Router Wifi chuẩn AC1200 4A có băng tần kép bao gồm tốc độ tối đa đến 867 Mbps ở băng tần 5 GHz và 300 Mbps ở băng tần 2.4 GHz. Như vậy sẽ hạn chế nhiễu sóng và phù hợp với nhu cầu sử dụng đường truyền nhanh và ổn định. Router Xiaomi luôn được đảm bảo kết nối của các thiết bị trong gia đình một cách tốt nhất và ổn định nhất nhờ bộ nhớ 64 MB. Có thể kết nối cùng lúc từ 30 - 40 thiết bị, khả năng xử lý nhiều tác vụ nhanh và ổn định hơn. <br /> Router còn được trang bị 2 cổng LAN, 1 cổng WAN tiện lợi cho người dùng sử dụng máy tính bàn kết nối trực tiếp, đường truyền tốc độ cao hơn.\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/product/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJhdXRoIjoxLCJjYXJ0SUQiOi0xLCJpYXQiOjE2OTE3NDYwNTgsImV4cCI6MTY5MTc2NzY1OH0.nehJz-QXL5lhIWflhrcYF02Q0j5n5x_juNrocJZ5fqs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/product/78",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"78"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMutil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJhdXRoIjoxLCJjYXJ0SUQiOi0xLCJpYXQiOjE2OTE3NDYwNTgsImV4cCI6MTY5MTc2NzY1OH0.nehJz-QXL5lhIWflhrcYF02Q0j5n5x_juNrocJZ5fqs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productID\":[79, 81]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/product/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllProduct",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/product/allproduct/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"allproduct",
+								""
 							]
 						}
 					},

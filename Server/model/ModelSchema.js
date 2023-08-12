@@ -12,7 +12,7 @@ class ModelSchema {
 
             let field = this.schema[fieldName];
 
-            let { isValid, err } = field.validate(data)
+            let { isValid, err } = field.validate(val)
             if (!isValid) {
                 throw new Error(`Invalid data at field ${fieldName}. ${err}`)
             }

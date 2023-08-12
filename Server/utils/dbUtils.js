@@ -5,7 +5,7 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
     const skip = (page - 1) * pageSize;
     paginationStr = "ORDER BY";
     let defaultSortStr = `${defaultSort} asc`;
-    let SortStr = "";
+    let sortStr = "";
     const sort = filter.sort;
 
     delete filter.page;
@@ -20,37 +20,34 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
                 const schemaProp = schema[criteria];
                 if (i > 0) {
                     filterStr += " AND ";
-                }
-                else {
-                    filterStr += " WHERE ";
+                } else {
+                    filterStr += "WHERE ";
                 }
 
                 if (schemaProp.type === "number") {
                     if (typeof filter[criteria] === "object") {
-                        let j = 0
+                        let j = 0;
                         for (let criteriaOperator in filter[criteria]) {
                             let operator;
                             let criterialVal;
+
                             if (criteriaOperator === "gt") {
                                 operator = ">";
                                 criterialVal = filter[criteria]["gt"];
-                            }
-                            else if (criteriaOperator === "gte") {
+                            } else if (criteriaOperator === "gte") {
                                 operator = ">=";
                                 criterialVal = filter[criteria]["gte"];
-                            }
-                            else if (criteriaOperator === "lt") {
+                            } else if (criteriaOperator === "lt") {
                                 operator = "<";
                                 criterialVal = filter[criteria]["lt"];
-                            }
-                            else if (criteriaOperator === "lte") {
+                            } else if (criteriaOperator === "lte") {
                                 operator = "<=";
                                 criterialVal = filter[criteria]["lte"];
-                            }
-                            else if (criteriaOperator === "eq") {
+                            } else if (criteriaOperator === "eq") {
                                 operator = "=";
                                 criterialVal = filter[criteria]["eq"];
                             }
+
                             if (operator && criterialVal) {
                                 if (j > 0) {
                                     filterStr += " AND ";
@@ -62,7 +59,7 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
                         }
                     } else {
                         filterStr += criteria + " = " + filter[criteria];
-                        i++
+                        i++;
                     }
                 } else if (schemaProp.type === "string") {
                     filterStr += criteria + " = '" + filter[criteria] + "'";
@@ -71,77 +68,84 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
             }
         }
     }
+
     if (sort) {
-        let sortCriterias = sort.splot(",")
+        let sortCriterias = sort.split(",");
         if (sortCriterias.length > 0) {
+            // console.log(sortCriterias);
             sortCriterias.forEach((criteria) => {
                 let sortDirection = "asc";
                 let sortProp = criteria;
-                if (criteria.startsWitch("-")) {
+                if (criteria.startsWith("-")) {
                     sortDirection = "desc";
                     sortProp = criteria.replace(/^-+/, "");
                 }
-                if (schmea[sortProp]) {
+
+                if (schema[sortProp]) {
                     sortStr += sortProp + " " + sortDirection + ",";
                 }
             });
         }
     }
+
     if (sortStr) {
-        sortStr = sortStr.slice(0, -1);//delete last
+        sortStr = sortStr.slice(0, -1); //delete last ','
     } else {
         sortStr = defaultSortStr;
     }
 
-    //offset 0 rows fetch next 10 rows only;
+    //offset 0 ROWS FETCH NEXT 10 ROWS ONLY;
     paginationStr +=
         " " +
         sortStr +
         " OFFSET " +
+        skip +
+        " ROWS FETCH NEXT " +
         pageSize +
         " ROWS ONLY";
+
     // console.log('sortStr', sortStr);
-    // console.log('paginationStr', paginationStr)
+    // console.log('paginationStr', paginationStr);
 
     return {
         filterStr,
         paginationStr,
     };
-
 };
 
-exports.    getInsertQuery = (schema, request, insert) => {
+exports.getInsertQuery = (schema, request, insert) => {
     if (!insert) {
         throw new Error("Invalid insert param");
     }
-    let insertFieldNameStr = "";
-    let insertValueStr = "";
 
-    for (let fiedName in schema) {
-        const schemaProp = schema[fiedName];
-        let val = insert[fiedName];
-        let { isValid, err } = schema.validate(val);
+    let insertFieldNamesStr = "";
+    let insertValuesStr = "";
+
+    for (let fieldName in schema) {
+        const schemaProp = schema[fieldName];
+        let val = insert[fieldName];
+        let { isValid, err } = schemaProp.validate(val);
         if (isValid) {
             if (val !== null && val !== undefined) {
-                requires.input(fiedName, schemaProp, sqlType, val);
-                insertFieldNameStr += fiedName + ",";
-                insertValueStr += "@" + fiedName + ",";
-
+                request.input(fieldName, schemaProp.sqlType, val);
+                insertFieldNamesStr += fieldName + ",";
+                insertValuesStr += "@" + fieldName + ",";
             }
-        }
-        else {
-            throw new Error("Invalid data at field: " + fiedName + "," + err);
+        } else {
+            throw new Error("Invalid data at field: " + fieldName + ". " + err);
         }
     }
-    if (insertFieldNameStr && insertValueStr) {
-        insertFieldNameStr = insertFieldNameStr.slice(0, -1);
-        insertValueStr = insertValueStr.slice(0, -1);
+
+    if (insertFieldNamesStr && insertValuesStr) {
+        insertFieldNamesStr = insertFieldNamesStr.slice(0, -1); //delete last ','
+        insertValuesStr = insertValuesStr.slice(0, -1); //delete last ','
     }
+
     return {
         request,
-        insertFieldNameStr,
-        insertValueStr
-    }
+        insertFieldNamesStr,
+        insertValuesStr,
+    };
 };
 
 exports.getUpdateQuery = (schema, request, update) => {
@@ -150,68 +154,78 @@ exports.getUpdateQuery = (schema, request, update) => {
     }
 
     let updateStr = "";
-    for (let fiedName in update) {
-        const schemaProp = schema[fiedName];
-
+    for (let fieldName in update) {
+        const schemaProp = schema[fieldName];
         if (schemaProp) {
             let val = update[fieldName];
-            let { isValid, err } = validate(val);
+            let { isValid, err } = schemaProp.validate(val);
             if (isValid) {
                 if (val !== null && val !== undefined) {
-                    request.input(fiedName, schemaProp, sqlType, val)
-                    updateStr += fiedName + "=@" + fiedName + ",";
+                    request.input(fieldName, schemaProp.sqlType, val);
+                    updateStr += fieldName + " = @" + fieldName + ",";
                 }
             } else {
-                throw new Error("Invalid date field : " + fiedName + "," + err);
+                throw new Error("Invalid data at field: " + fieldName + ". " + err);
             }
         }
     }
+
     if (updateStr) {
-        updateStr = updateStr.slice(0, -1);
+        updateStr = updateStr.slice(0, -1); //delete last ','
     }
+
     return {
         request,
         updateStr,
-    }
+    };
 };
 
 exports.getDeleteQuery = (schema, idList) => {
     if (!idList || idList.length == 0) {
         throw new Error("Invalid id list param");
     }
-    let deleteStr = `in (`;
+    let deleteStr = ` in (`;
     for (let i = 0; i < idList.length; i++) {
-        deleteStr += `${idList[i]}`;
+        deleteStr += `${idList[i]},`;
     }
+    deleteStr = deleteStr.slice(0, -1); //delete last ','
     deleteStr += `)`;
     return deleteStr;
-}
+};
 
-exports.getFilterProductQuery = (schema, filter, page, pageSize, defaultSort) => {
+exports.getFilterProductsQuery = (
+    schema,
+    filter,
+    page,
+    pageSize,
+    defaultSort
+) => {
     let filterStr;
-    let paginationStrl
+    let paginationStr;
 
     const skip = (page - 1) * pageSize;
-    paginationStrl = "order by";
+    paginationStr = "order by";
     let sort = "";
     if (filter.sort) {
-        sort = filter.sort
+        sort = filter.sort;
     }
 
     delete filter.page;
     delete filter.pageSize;
     delete filter.sort;
-
+    // console.log(filter);
+    // console.log("brand filter", filter["brand"]);
     if (filter) {
         filterStr = "";
         let i = 0;
 
         if (filter["categoryID"]) {
-            filterStr += "join category on category.categoryID=product.categoryID";
+            filterStr += "join category on category.categoryID = product.categoryID";
         }
+
         for (let criteria in filter) {
             const schemaProp = schema[criteria];
-            if (schmea[criteria]) {
+            if (schema[criteria]) {
                 if (i > 0) {
                     filterStr += " AND ";
                 } else {
@@ -223,21 +237,18 @@ exports.getFilterProductQuery = (schema, filter, page, pageSize, defaultSort) =>
                         let j = 0;
                         for (let criteriaOperator in filter[criteria]) {
                             let operator;
-                            let criterialVal
+                            let criterialVal;
 
-                            if (operator === ["gte"]) {
+                            if (criteriaOperator === "gte") {
                                 operator = ">=";
                                 criterialVal = filter[criteria]["gte"];
-                            }
-                            if (operator === ["lt"]) {
+                            } else if (criteriaOperator === "lt") {
                                 operator = "<";
                                 criterialVal = filter[criteria]["lt"];
-                            }
-                            if (operator === "eq") {
+                            } else if (criteriaOperator === "eq") {
                                 operator = "=";
                                 criterialVal = filter[criteria]["eq"];
-                            }
-                            if (operator === "gt") {
+                            } else if (criteriaOperator === "gt") {
                                 operator = ">";
                                 criterialVal = filter[criteria]["gt"];
                             }
@@ -246,7 +257,8 @@ exports.getFilterProductQuery = (schema, filter, page, pageSize, defaultSort) =>
                                 if (j > 0) {
                                     filterStr += " AND ";
                                 }
-                                filter += "Product." + criteria + " " + operator + "" + criterialVal;
+                                filterStr +=
+                                    " Product." + criteria + " " + operator + " " + criterialVal;
                                 j++;
                             }
                             i++;
@@ -256,35 +268,38 @@ exports.getFilterProductQuery = (schema, filter, page, pageSize, defaultSort) =>
 
                 //filter brand
                 if (criteria == "brandID") {
-
+                    console.log("brand");
                     filterStr += "(";
-                    if (filter[criteria].constrcutor === Array) {
+                    if (filter[criteria].constructor === Array) {
                         if (schemaProp.type === "number") {
                             for (let valueIdx in filter[criteria]) {
                                 filterStr +=
                                     "Product." +
                                     criteria +
-                                    "=" +
+                                    " = " +
                                     filter[criteria][valueIdx] +
                                     "";
                                 if (valueIdx * 1 === filter[criteria].length - 1) {
-                                    filterStr == ")";
+                                    filterStr += ")";
                                 } else if (valueIdx * 1 !== filter[criteria].length - 1) {
-                                    filterStr += "or";
+                                    filterStr += " or ";
                                 }
                             }
                         }
                         i++;
                     }
-                    if (filter[criteria].constrcutor !== Array && schemaProp.type === "number") {
+                    if (
+                        filter[criteria].constructor !== Array &&
+                        schemaProp.type === "number"
+                    ) {
                         filterStr += "Product." + criteria + "=" + filter[criteria] + ")";
-                        i++
+                        i++;
                     }
                 }
                 //filter category
                 if (criteria == "categoryID") {
-                    if (schema === "number") {
-                        filterStr = "Product." + criteria + "=" + filter[criteria] + "";
+                    if (schemaProp.type === "number") {
+                        filterStr += "Product." + criteria + " = " + filter[criteria] + "";
                     }
                     i++;
                 }
@@ -292,34 +307,36 @@ exports.getFilterProductQuery = (schema, filter, page, pageSize, defaultSort) =>
                 if (criteria == "name" && filter[criteria].length > 0) {
                     filterStr +=
                         `dbo.fuConvertToUnsign1(${criteria})` +
-                        "like N'%'" +
-                        `dbo.fuConvertToUnsign1(${filter[criteria]})` +
-                        "+ '%'";
+                        " like N'%' + " +
+                        `dbo.fuConvertToUnsign1(N'${filter[criteria]}')` +
+                        " + '%' ";
                     i++;
                 }
             }
         }
-        if (sort.length = 0) {
-            paginationStrl +=
-                "(SELECT NULL) OFFSET" +
+        if (sort.length == 0) {
+            paginationStr +=
+                "(SELECT NULL) OFFSET " +
                 skip +
-                "ROWS FETCH NEXT" +
+                " ROWS FETCH NEXT " +
                 pageSize +
-                "ROWS ONLY";
+                " ROWS ONLY";
         } else if (sort.length > 0) {
-            paginationStrl += `price ${sort}`;
-            paginationStrl +=
-                "OFFSET " + skip + "ROWS FETCH NEXT" + pageSize + "ROWS ONLY";
+            paginationStr += ` price ${sort}`;
+            paginationStr +=
+                " OFFSET " + skip + " ROWS FETCH NEXT " + pageSize + " ROWS ONLY";
         }
     }
+    // console.log("filter string", filterStr);
     filterStr = filterStr.replace(/[\n\r]/g, "");
-    return { filterStr, paginationStrl };
+    return { filterStr, paginationStr };
 };
 
 exports.getFilterUserQuery = (schema, filter, page, pageSize, defaultSort) => {
     let filterStr;
     let paginationStr;
 
+    // console.log(filter);
     const skip = (page - 1) * pageSize;
     paginationStr = "order by";
     let sort = "";
@@ -339,33 +356,30 @@ exports.getFilterUserQuery = (schema, filter, page, pageSize, defaultSort) => {
             if (schema[criteria]) {
                 if (i > 0) {
                     filterStr += " AND ";
-                }
-                else {
+                } else {
                     filterStr += " WHERE ";
                 }
-
                 //filter auth
-                {
-                    if (criteria == "auth" && filter[criteria].length > 0) {
-                        filterStr += criteria + " = " + filter[criteria];
-                        i++;
-                    }
+                if (criteria == "auth" && filter[criteria].length > 0) {
+                    filterStr += criteria + " = " + filter[criteria];
+                    i++;
                 }
             }
         }
         if (sort.length == 0) {
             paginationStr +=
-                "(SELECT NULL) OFF SET " +
+                "(SELECT NULL) OFFSET " +
                 skip +
-                "ROWS FETCH NEXT" +
+                " ROWS FETCH NEXT " +
                 pageSize +
-                "ROWS ONLY";
+                " ROWS ONLY";
         } else if (sort.length > 0) {
-            paginationStr += `price ${sort}`;
+            paginationStr += ` price ${sort}`;
             paginationStr +=
-                "OFFSET" + skip + "ROWS FETCH NEXT " + pageSize + "ROWS ONLY";
+                " OFFSET " + skip + " ROWS FETCH NEXT " + pageSize + " ROWS ONLY";
         }
     }
+    // console.log("filter string", filterStr);
     filterStr = filterStr.replace(/[\n\r]/g, "");
-    return (filterStr, paginationStr)
-}
+    return { filterStr, paginationStr };
+};
