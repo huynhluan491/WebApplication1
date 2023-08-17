@@ -79,8 +79,10 @@ exports.updateRatingByID = async (req, res) => {
         const updateInfo = req.body;
         const productID = updateInfo.productID;
         delete updateInfo.productID;
+        console.log(updateInfo);
+
         await ratingDAO.updateRatingById(productID, updateInfo);
-        rating = ratingDAO.getRatingByProductID(productID);
+        rating = await ratingDAO.getRatingByProductID(productID);
         return res.status(200).json({
             code: 200,
             msg: null,
@@ -90,7 +92,7 @@ exports.updateRatingByID = async (req, res) => {
         console.log(err);
         res.status(500).json({
             code: 500,
-            msg: "Update rating by id failed"
+            msg: "Update rating by id failed",err
         });
     }
 };

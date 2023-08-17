@@ -27,12 +27,17 @@ const brandRouter = require("./routes/brand");
 const ratingRouter = require("./routes/rating");
 const cartRouter = require("./routes/cart")
 const productRouter = require("./routes/product")
+const categoryRouter = require("./routes/category")
+const featureRouter = require("./routes/feature")
+
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/brand", brandRouter);
 app.use("/api/v1/rating", ratingRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/category", categoryRouter);
+app.use("/api/v1/feature", featureRouter);
 
 
 module.exports = app;

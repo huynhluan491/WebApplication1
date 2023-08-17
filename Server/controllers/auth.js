@@ -28,7 +28,8 @@ exports.login = async (req, res) => {
         }
         // check user existed
         const user = await UserDAO.getUserByUserName(form.userName);
-        const cartUser = await CartDAO.getCartIDByUserName(form.cartID);
+        const cartUser = await CartDAO.getCartIDByUserName(form.userName);
+        let cartID;
         if (!cartUser) {
             cartID = -1;
         } else {
@@ -61,7 +62,7 @@ exports.login = async (req, res) => {
         console.log(err);
         res.status(500).json({
             code: 500,
-            msg: err,
+            msg: err.toString(),
         })
     }
 }
@@ -91,7 +92,7 @@ exports.signup = async (req, res) => {
             data: { user }
         });
     } catch (err) {
-        console.log(err)
+        console.log(err);
         res.status(500).json({
             code: 500,
             msg: err.toString(),

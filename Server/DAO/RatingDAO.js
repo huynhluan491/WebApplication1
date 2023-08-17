@@ -19,6 +19,7 @@ exports.addRating = async (rating) => {
             insertData
         )
     query += `( ${insertFieldNamesStr} values ${insertValuesStr})`;
+    console.log(`query: `, query);
     let result = await request.query(query);
     return result.recordsets;
 }
@@ -94,6 +95,8 @@ exports.updateRatingById = async (productID, updateInfo) => {
         .request()
         .input(RatingSchema.schema.productID.name, RatingSchema.schema.productID.sqlType, productID);
     query += " " + `WHERE ${RatingSchema.schema.productID.name} =@${RatingSchema.schema.productID.name}`;
+    console.log(`query: `, query)
+
     let result = await request.query(query);
     return result.recordsets;
 
