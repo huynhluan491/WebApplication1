@@ -9,10 +9,10 @@ exports.addBrandIfNotExists = async (brand) => {
     }
     brand.createdAt = new Date().toISOString();
 
-    let insertData = BrandShcema.validateData(brand);
-    let query = `SET IDENTITY_INSERT ${BrandShcema.schemaName} ON insert into ${BrandShcema.schemaName}`;
+    let insertData = BrandSchema.validateData(brand);
+    let query = `SET IDENTITY_INSERT ${BrandSchema.schemaName} ON insert into ${BrandSchema.schemaName}`;
     const { request, insertFieldNamesStr, insertValuesStr } =
-        dbUtils.getInsertQuery(BrandShcema.schema, dbPool.request(), insertData);
+        dbUtils.getInsertQuery(BrandSchema.schema, dbPool.request(), insertData);
     if (!insertFieldNamesStr || !insertValuesStr) {
         throw new Error("Invalid insert param");
     }
@@ -22,8 +22,8 @@ exports.addBrandIfNotExists = async (brand) => {
         insertFieldNamesStr +
         ") select  " +
         insertValuesStr +
-        ` WHERE NOT EXISTS(SELECT * FROM ${BrandShcema.schemaName} WHERE brandName = @brandName)` +
-        ` SET IDENTITY_INSERT ${BrandShcema.schemaName} OFF`;
+        ` WHERE NOT EXISTS(SELECT * FROM ${BrandSchema.schemaName} WHERE brandName = @brandName)` +
+        ` SET IDENTITY_INSERT ${BrandSchema.schemaName} OFF`;
     let result = await request.query(query);
     return result.recordsets;
 };

@@ -13,7 +13,7 @@ exports.addUserIfNotExisted = async (user) => {
 
     let insertData = UserSchema.validateData(user);
     insertData.password = await bcrypt.hash(insertData.password, 10);
-    let query = `SET INDENTITY_INSERT ${UserSchema.schemaName} ON insert into ${UserSchema.schemaName}`;
+    let query = `SET IDENTITY_INSERT ${UserSchema.schemaName} ON insert into ${UserSchema.schemaName}`;
     //SCHEMA,RESQUEST,INSERT
     const { request, insertFieldNamesStr, insertValuesStr } =
         dbUntils.getInsertQuery(
@@ -29,10 +29,10 @@ exports.addUserIfNotExisted = async (user) => {
     query +=
         "(" +
         insertFieldNamesStr +
-        ")" +
+        ") SELECT " +
         insertValuesStr +
-        `WHERE NOT EXISTS(SELECT *FROM ${UserSchema.schemaName} WHERE userName =@userName)` +
-        `SET INDENITTY_INSERT ${UserSchema.schemaName} OFF`;
+        ` WHERE NOT EXISTS(SELECT * FROM ${UserSchema.schemaName} WHERE userName = @userName)` +
+        ` SET IDENTITY_INSERT ${UserSchema.schemaName} OFF`;
     let result = await request.query(query);
     return result.recordsets;
 
@@ -99,7 +99,7 @@ exports.getUserByUserEmail = async (username) => {
     let result = await dbConfig.db.pool
         .request()
         .input(UserSchema.schema.email.name, UserSchema.schema.email.sqlType, username)
-        .query(`SELECT * FROM ${UserSchema.schema} WHERE ${UserSchema.schema.email.name} =@${UserSchema.schema.email.name}`);
+        .query(`SELECT * FROM ${UserSchema.schemaName} WHERE ${UserSchema.schema.email.name} =@${UserSchema.schema.email.name}`);
     if (result.recordsets[0].length > 0) {
         return result.recordsets[0][0];
     }
@@ -195,3 +195,19 @@ exports.updateUserById = async (id, updateInfo) => {
     let result = await request.query(query);
     return result.recordsets;
 }
+
+exports.deleteMutilUserById = async (idList) => {
+    if (!dbConfig.db.pool) {
+        throw new Error("Not connect to db");
+    }
+    for (let i = 0; i < idList.length; i++) {
+        UserSchema.schema.userID.validate(idList[i])
+    }
+
+}
+
+exports.clearAll = async () => {
+    query = `delete ${UserSchema.schemaName}  DBCC CHECKIDENT ('[${UserSchema.schemaName} ]', RESEED, 1);`;
+    let result = await dbConfig.db.pool.request().query(query);
+    return result.recordsets;
+};

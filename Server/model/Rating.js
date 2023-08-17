@@ -39,7 +39,7 @@ const RatingSchema = new ModelSchema({
         default: 0
     }),
     productID: new ModelSchemaValidator({
-        name: "prodcutID",
+        name: "productID",
         sqlType: sql.Int,
         require: true
     }),

@@ -32,11 +32,11 @@ exports.addProductIfNotExisted = async (product) => {
         insertValuesStr +
         ` WHERE NOT EXISTS(SELECT * FROM ${ProductSchema.schemaName} WHERE name = @name)` +
         ` SET IDENTITY_INSERT ${ProductSchema.schemaName} OFF`;
-    console.log(query);
+    // console.log(query);
 
     let result = await request.query(query);
 
-    console.log(result);
+    // console.log(result);
     return result.recordsets;
 };
 
@@ -263,3 +263,9 @@ exports.deleteMutilProductByID = async (idList) => {
     // console.log('query: ', result)
     return result.recordsets;
 }
+
+exports.clearAll = async () => {
+    query = `delete ${ProductSchema.schemaName}  DBCC CHECKIDENT ('[${ProductSchema.schemaName} ]', RESEED, 1);`;
+    let result = await dbConfig.db.pool.request().query(query);
+    return result.recordsets;
+};

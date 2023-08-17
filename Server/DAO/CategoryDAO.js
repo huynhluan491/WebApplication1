@@ -40,3 +40,31 @@ exports.getCategoryIDByName = async (name) => {
     return result.recordsets[0][0].categoryID;
 }
 
+exports.clearAll = async () => {
+    query = `delete ${CategorySchema.schemaName}  DBCC CHECKIDENT ('[${CategorySchema.schemaName} ]', RESEED, 1);`;
+    let result = await dbConfig.db.pool.request().query(query);
+    return result.recordsets;
+};
+
+exports.getCategoryByID = async (id) => {
+    if (!dbConfig.db.pool) {
+        throw new Error("Not connect to db");
+    }
+    let result = await dbConfig.db.pool
+        .request()
+        .input(CategorySchema.schema.categoryID.name, CategorySchema.schema.categoryID.sqlType, id)
+        .query(`SELECT * FROM ${CategorySchema.schemaName} WHERE ${CategorySchema.schema.categoryID.name} =@${CategorySchema.schema.categoryID.name} `)
+    return result.recordsets[0][0];
+}
+
+exports.getCategory = async () => {
+    if (!dbConfig.db.pool) {
+        throw new Error("Not connected to db");
+    }
+    let result = await dbConfig.db.pool
+        .request()
+        .query(`select * from category`);
+    console.log(result)
+    return result.recordsets[0];
+};
+
