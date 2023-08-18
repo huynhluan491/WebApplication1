@@ -44,7 +44,7 @@ exports.createNewCart = async (userID) => {
     if (!insertFieldNamesStr || !insertValuesStr) {
         throw new Error("Invalid insert param");
     }
-    const query = `INSERT INTO ${CartSchema.schema} (${insertFieldNamesStr}) SELECT ${insertValuesStr}`;
+    const query = `INSERT INTO ${CartSchema.schemaName} (${insertFieldNamesStr}) SELECT ${insertValuesStr}`;
     let result = await request.query(query);
 
     return result;
