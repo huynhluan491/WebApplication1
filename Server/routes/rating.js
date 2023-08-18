@@ -19,6 +19,5 @@ router
     .patch(ratingController.updateRatingByID)
 
 
-router.route("/add").post(ratingController.addRating);
 
 module.exports = router;

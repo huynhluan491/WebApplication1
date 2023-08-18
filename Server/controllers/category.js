@@ -1,4 +1,6 @@
 const CategoryDAO = require("../DAO/CategoryDAO");
+const productDAO = require("../DAO/ProductDAO")
+
 
 exports.getCateIdByName = async (req, res) => {
     // console.log("req.params", req.params);
@@ -66,6 +68,23 @@ exports.getAllCategory = async (req, res) => {
         res.status(404).json({
             code: 404,
             msg: error,
+        });
+    }
+};
+
+exports.getCategoryPagination = async (req, res) => {
+    try {
+        const cate = await CategoryDAO.getCategoryPagination(req.query);
+        res.status(200).json({
+            code: 200,
+            msg: null,
+            data: cate,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            code: 500,
+            msg: `FAIL with ${err}`,
         });
     }
 };

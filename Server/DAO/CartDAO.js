@@ -146,7 +146,7 @@ exports.updateCart = async (cart_Product) => {
         updateData
     );
 
-    q += updateStr + ` where productID =@productID and cartID = @cartID`;
+    query += updateStr + ` where productID =@productID and cartID = @cartID`;
     let result = await request.query(query);
     console.log(query);
     return result.recordsets;

@@ -92,7 +92,7 @@ exports.updateRatingByID = async (req, res) => {
         console.log(err);
         res.status(500).json({
             code: 500,
-            msg: "Update rating by id failed",err
+            msg: "Update rating by id failed"
         });
     }
 };

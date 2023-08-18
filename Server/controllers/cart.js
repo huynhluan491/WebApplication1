@@ -40,7 +40,7 @@ exports.updateProductInCart = async (req, res) => {
         let result = await CartDAO.updateCart(req.body);
         res.status(200).json({
             code: 200,
-            msg: null,
+            msg: 'sucess',
             data: result
         });
     } catch (error) {
@@ -57,7 +57,7 @@ exports.insertProductToCart = async (req, res) => {
         let result = await CartDAO.addCart_ProductIfNotExisted(req.body);
         res.status(200).json({
             code: 200,
-            msg: result,
+            msg: 'sucess',
             data: result
         });
     } catch (error) {
@@ -71,10 +71,11 @@ exports.insertProductToCart = async (req, res) => {
 exports.deleteProductInCart = async (req, res) => {
     const dele = req.query;
     try {
-        let result = await CartDAO.deleteItemInCart(dele);
+        await CartDAO.deleteItemInCart(dele);
         res.status(200).json({
             code: 200,
-            msg: null,
+            msg: 'sucess'
+
         });
     } catch (error) {
         res.status(404).json({

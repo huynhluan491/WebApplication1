@@ -1,7 +1,7 @@
 const RatingSchema = require("../model/Rating");
 const dbConfig = require("../database/dbconfig");
 const dbUtils = require("../utils/dbUtils");
-const { query } = require("mssql");
+const sql = require("mssql");
 
 exports.addRating = async (rating) => {
     if (!dbConfig.db.pool) {
@@ -15,7 +15,7 @@ exports.addRating = async (rating) => {
     const { request, insertFieldNamesStr, insertValuesStr } =
         dbUtils.getInsertQuery(
             RatingSchema,
-            dbConfig.pool.request(),
+            dbConfig.db.pool.request(),
             insertData
         )
     query += `( ${insertFieldNamesStr} values ${insertValuesStr})`;
@@ -83,21 +83,31 @@ exports.getRatingByProductID = async (id) => {
 };
 
 exports.updateRatingById = async (productID, updateInfo) => {
-    console.log(productID);
-    console.log(updateInfo);
-    const rating = updateInfo;
-    if (!dbConfig.db.pool) {
-        throw new Error("Not connnect to db");
-    }
-    const starQuantity = `_${rating}star`;
-    let query = `update ${RatingSchema.schemaName} set ${starQuantity} = ${starQuantity} +1`;
-    let request = await dbConfig.db.pool
-        .request()
-        .input(RatingSchema.schema.productID.name, RatingSchema.schema.productID.sqlType, productID);
-    query += " " + `WHERE ${RatingSchema.schema.productID.name} =@${RatingSchema.schema.productID.name}`;
-    console.log(`query: `, query)
 
-    let result = await request.query(query);
+    if (!dbConfig.db.pool) {
+        throw new Error("Not connect to db");
+    }
+
+    const request = dbConfig.db.pool.request();
+
+    // Prepare the SET clause for updating each rating
+    const setClauses = Object.keys(updateInfo).map(key => {
+        return `${key} = ${key} + @${key}`;
+    }).join(', ');
+
+    const query = `
+        UPDATE ${RatingSchema.schemaName}
+        SET ${setClauses}
+        WHERE ${RatingSchema.schema.productID.name} = @productID;
+    `;
+
+    // Prepare input parameters
+    Object.keys(updateInfo).forEach(key => {
+        request.input(key, sql.Int, updateInfo[key]);
+    });
+    request.input("productID", sql.Int, productID);
+
+    const result = await request.query(query);
     return result.recordsets;
 
 }

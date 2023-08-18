@@ -40,3 +40,20 @@ exports.getAllBrand = async (req, res) => {
         })
     }
 }
+
+exports.getBrandsPagination = async (req, res) => {
+    try {
+        const brands = await brandDAO.getBrandPagination(req.query);
+        res.status(200).json({
+            code: 200,
+            msg: null,
+            data: brands,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            code: 500,
+            msg: `FAIL with ${err}`,
+        });
+    }
+};
