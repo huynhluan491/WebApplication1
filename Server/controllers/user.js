@@ -123,17 +123,18 @@ exports.deleteUserById = async (req, res) => {
 }
 
 exports.deleteMutilUserById = async (req, res) => {
-    const idList = req.body.id;
+    const idList = req.query.id;
     try {
-        if (!idList || !idList.lenght === 0) {
+        if (!idList || idList.lenght === 0) {
             return res.status(403).json({
                 code: 403,
                 msg: "Invalid id",
             });
-        } await UserDao.deleteMutilUserById(idList);
+        }
+        await UserDao.deleteMutilUserById(idList);
         return res.status(200).json({
             code: 200,
-            msg: null,
+            msg: `sucess`,
         });
     } catch (err) {
         return res.status(500).json({

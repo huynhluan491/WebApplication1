@@ -162,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\":\"admin2\",\r\n    \"password\":\"admin\"\r\n}",
+							"raw": "{\r\n    \"userName\":\"admin\",\r\n    \"password\":\"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -216,6 +216,14 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "DeleteMutil",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -223,12 +231,12 @@
 			"name": "brand",
 			"item": [
 				{
-					"name": "getAll",
+					"name": "getbrandPagination",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/brand/",
+							"raw": "http://localhost:3000/api/v1/brand/?page=1&pageSize=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -239,6 +247,16 @@
 								"v1",
 								"brand",
 								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -261,6 +279,38 @@
 								"v1",
 								"brand",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllBrand",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/brand/?page=2&pageSize=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"brand",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
 							]
 						}
 					},
@@ -326,6 +376,54 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "updateRatingbyid",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            // \"ratingID\":80,\r\n            \"_1star\": 1,\r\n            \"productID\": 81\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/rating/:id?ratingID=80",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"rating",
+								":id"
+							],
+							"query": [
+								{
+									"key": "rating",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "ratingID",
+									"value": "80"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -338,6 +436,37 @@
 						"method": "GET",
 						"header": [],
 						"url": {
+							"raw": "http://localhost:3000/api/v1/cart/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cartID\": 5,\r\n  \"productID\": 79,\r\n  \"amount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
 							"raw": "http://localhost:3000/api/v1/cart/",
 							"protocol": "http",
 							"host": [
@@ -349,6 +478,97 @@
 								"v1",
 								"cart",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByUserID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/cart/?userID=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								""
+							],
+							"query": [
+								{
+									"key": "userID",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cartID\": 5,\r\n  \"productID\": 79,\r\n  \"amount\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProductIncart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/cart/?cartID=5&productID=79",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cart",
+								""
+							],
+							"query": [
+								{
+									"key": "cartID",
+									"value": "5"
+								},
+								{
+									"key": "productID",
+									"value": "79"
+								}
 							]
 						}
 					},
@@ -572,7 +792,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/product/",
+							"raw": "http://localhost:3000/api/v1/product/?id=79&id=81",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -583,6 +803,16 @@
 								"v1",
 								"product",
 								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "79"
+								},
+								{
+									"key": "id",
+									"value": "81"
+								}
 							]
 						}
 					},
@@ -613,6 +843,276 @@
 								"product",
 								"allproduct",
 								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "categorybyID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/category/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoryPagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/category/?page=8&pageSize=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "8"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "feature",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/feature/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"feature",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjU0LCJ1c2VybmFtZSI6ImFkbWluMiIsImF1dGgiOjAsImNhcnRJRCI6LTEsImlhdCI6MTY5MTkyMjcxNCwiZXhwIjoxNjkxOTQ0MzE0fQ.ppTeCeNiAxlfPjn8gPb7de2ShBkV9ZSXg7mECuQU4lU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/feature/296",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"feature",
+								"296"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createNewFeature",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJhdXRoIjoxLCJpYXQiOjE2OTE5NTM3MDIsImV4cCI6MTY5MTk3NTMwMn0.EtuCW6RBbt8Frx_tWgK2vjdDOngcYSlVHr3v5U8UppA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"feature\": \"Thiết kế siêu mỏng nhẹ, dịch chuyển dễ dàng\",\r\n    \"productID\": 2\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/feature/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"feature",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateFeature",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJhdXRoIjoxLCJpYXQiOjE2OTE5NTM3MDIsImV4cCI6MTY5MTk3NTMwMn0.EtuCW6RBbt8Frx_tWgK2vjdDOngcYSlVHr3v5U8UppA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"feature\": \"Thiết kế nhỏ gọn tiện lợi , hiện đại\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/feature/296",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"feature",
+								"296"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJhdXRoIjoxLCJpYXQiOjE2OTE5NTM3MDIsImV4cCI6MTY5MTk3NTMwMn0.EtuCW6RBbt8Frx_tWgK2vjdDOngcYSlVHr3v5U8UppA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/feature/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"feature",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "297"
+								}
 							]
 						}
 					},

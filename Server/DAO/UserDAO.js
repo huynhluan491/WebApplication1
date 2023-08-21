@@ -1,6 +1,6 @@
 const UserSchema = require("../model/Users");
 const dbConfig = require("../database/dbconfig");
-const dbUntils = require("../utils/dbUtils");
+const dbUtils = require("../utils/dbUtils");
 const bcrypt = require("bcryptjs");
 const StaticData = require("../utils/StaticData");
 
@@ -16,7 +16,7 @@ exports.addUserIfNotExisted = async (user) => {
     let query = `SET IDENTITY_INSERT ${UserSchema.schemaName} ON insert into ${UserSchema.schemaName}`;
     //SCHEMA,RESQUEST,INSERT
     const { request, insertFieldNamesStr, insertValuesStr } =
-        dbUntils.getInsertQuery(
+        dbUtils.getInsertQuery(
             UserSchema.schema,
             dbConfig.db.pool.request(),
             insertData
@@ -49,7 +49,7 @@ exports.insertUser = async (user) => {
 
     let query = `insert into ${UserSchema.schemaName}`;
     const { request, insertFieldNamesStr, insertValuesStr } =
-        dbUntils.getInsertQuery(
+        dbUtils.getInsertQuery(
             UserSchema.schema,
             dbConfig.db.pool.request(),
             insertData
@@ -58,6 +58,7 @@ exports.insertUser = async (user) => {
         throw new Error("Invalid insert param");
     }
     query += "(" + insertFieldNamesStr + ") select  " + insertValuesStr;
+    console.log(`query: `, query)
     let result = await request.query(query);
     return result.recordsets;
 }
@@ -118,7 +119,7 @@ exports.getAllUser = async (filter) => {
     let selectQuery = `SELECT * FROM ${UserSchema.schemaName}`;
     let countQuery = `SELECT COUNT(DISTINCT ${UserSchema.schema.userID.name}) AS TOTALITEM FROM ${UserSchema.schemaName}`;
 
-    const { filterStr, paginationStr } = dbUntils.getFilterProductsQuery(
+    const { filterStr, paginationStr } = dbUtils.getFilterProductsQuery(
         UserSchema.schema,
         filter,
         page,
@@ -173,7 +174,7 @@ exports.updateUserById = async (id, updateInfo) => {
     }
     updateInfo = UserSchema.validateData(updateInfo);
     updateInfo.password = await bcrypt.hash(updateInfo.password, 10);
-    console.log(updateInfo);
+    // console.log(updateInfo);
     let query = `update ${UserSchema.schemaName} set`;
     const { request, updateStr } = dbUtils.getUpdateQuery(
         UserSchema.schema,
@@ -203,6 +204,12 @@ exports.deleteMutilUserById = async (idList) => {
     for (let i = 0; i < idList.length; i++) {
         UserSchema.schema.userID.validate(idList[i])
     }
+    let request = dbConfig.db.pool.request();
+    const deleteStr = dbUtils.getDeleteQuery(UserSchema, idList);
+    let result = await request.query(
+        `DELETE FROM ${UserSchema.schemaName} WHERE ${UserSchema.schema.userID.name} ${deleteStr}`
+    );
+    return result.recordsets;
 
 }
 
